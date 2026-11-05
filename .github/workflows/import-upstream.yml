@@ -1,0 +1,73 @@
+name: Import upstream snapshot
+
+# Copies a pinned snapshot of the upstream OpenCode repo into upstream/ and
+# opens a pull request. Runs entirely on GitHub's servers, so no local checkout
+# of the (large) upstream repo is needed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: "Upstream repository (owner/name)"
+        required: true
+        default: "anomalyco/opencode"
+      ref:
+        description: "Tag, branch or commit SHA to import (prefer a release tag over a moving branch)"
+        required: true
+        default: "dev"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    env:
+      UP_REPO: ${{ inputs.repo }}
+      UP_REF: ${{ inputs.ref }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@v4
+
+      - name: Fetch upstream at the requested ref
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none --no-checkout "https://github.com/${UP_REPO}.git" "${RUNNER_TEMP}/upstream-src"
+          git -C "${RUNNER_TEMP}/upstream-src" checkout --detach "${UP_REF}"
+          SHA="$(git -C "${RUNNER_TEMP}/upstream-src" rev-parse HEAD)"
+          echo "UP_SHA=${SHA}" >> "$GITHUB_ENV"
+
+      - name: Replace upstream/ with the snapshot
+        run: |
+          set -euo pipefail
+          rm -rf upstream
+          mkdir upstream
+          rsync -a --exclude='.git' "${RUNNER_TEMP}/upstream-src/" upstream/
+          {
+            echo "repo: ${UP_REPO}"
+            echo "ref: ${UP_REF}"
+            echo "commit: ${UP_SHA}"
+            echo "imported: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > UPSTREAM_VERSION
+
+      - name: Commit, push and open a pull request
+        run: |
+          set -euo pipefail
+          BRANCH="import/upstream-${UP_SHA:0:12}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "${BRANCH}"
+          git add upstream UPSTREAM_VERSION
+          if git diff --cached --quiet; then
+            echo "No changes: upstream/ already matches ${UP_SHA}."
+            exit 0
+          fi
+          git commit -m "Import upstream ${UP_REPO}@${UP_SHA:0:12} (${UP_REF})"
+          git push --set-upstream origin "${BRANCH}"
+          gh pr create \
+            --base "${GITHUB_REF_NAME}" \
+            --head "${BRANCH}" \
+            --title "[J-000] Import upstream ${UP_REPO} @ ${UP_REF} (${UP_SHA:0:12})" \
+            --body "Pinned, read-only snapshot of \`${UP_REPO}\` at \`${UP_REF}\` (commit \`${UP_SHA}\`). Recorded in \`UPSTREAM_VERSION\`. Do not edit \`upstream/\` by hand. See AGENTS.md."
