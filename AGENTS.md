@@ -53,7 +53,7 @@ crates/              Rust workspace; created in Phase 3, not before
 4. **Evidence over assertion.** Every factual claim in an audit document cites a file path (and line range or symbol) in `upstream/`, a commit, a command you ran, or a URL. Mark anything you inferred as *inferred* and anything you could not check as *unverified*.
 5. **Do not decide, propose.** For architectural choices, add a "Proposed" entry to `docs/DECISIONS.md` with options, trade-offs and a recommendation, then stop. The project owner accepts or rejects.
 6. **Verification before completion.** Never mark work done because it was generated. If you cannot run something in your VM (no GUI, no Windows or macOS, no network, no API keys), say so explicitly in the PR rather than guessing the outcome.
-7. **Reports without merge conflicts.** Do not edit `docs/PROGRESS.md`. Write your report to `docs/progress/<task-id>.md` using `docs/progress/TEMPLATE.md`. The project owner updates the status table.
+7. **Progress tracking and reports.** Update `docs/PROGRESS.md` with task progress, and write your task report to `docs/progress/<task-id>.md` using `docs/progress/TEMPLATE.md`.
 8. **Secrets.** Never commit tokens, API keys, credentials or real user data. Provider and credential handling is audited and documented here, not exercised with real accounts.
 9. **Licensing.** Preserve upstream `LICENSE` files and notices exactly. Record any licence or branding constraints you notice in `docs/audit/`.
 10. **Preserve behaviour.** The GUI, UX, integrations and features must keep working. Never silently drop functionality; list anything you cannot map as a gap.
