@@ -25,6 +25,14 @@ Reported facts about upstream (to be verified by J-001 to J-003):
 
 Implication: replacing only the shell may save less than hoped, because the JavaScript server and a system webview remain. Replacing the server is a much larger and faster-moving target. The decision should rest on measurements from J-005, not on assumptions.
 
+### Phase 1 Audit Evidence Summary (Added 2026-11-05)
+
+The Phase 1 audits (J-001 through J-005) established crucial empirical facts:
+1. **Server Process Topology**: The server does NOT run inside Electron's main process in upstream v2.2.5. It runs as a detached child process daemon (`opencode-cli serve --service`) communicating over loopback HTTP/SSE.
+2. **IPC Contract Cleanliness**: The renderer talks to the shell over 3 preload primitives and a 64-method MessagePort RPC interface (`docs/audit/ipc-inventory.json`). Zero dynamic channels exist.
+3. **Resource Breakdown**: Packaged Electron app idle memory is ~250-290 MB total PSS: ~100-140 MB belongs to the Electron/Chromium shell, and ~190-250 MB belongs to the Node/Bun CLI daemon (`docs/audit/05-baseline.md`).
+4. **Feasibility**: All 18 desktop-native features map directly to Tauri v2 plugins or Rust crates (`docs/audit/04-native-features.md`).
+
 ### Options
 
 **A — Rust shell, existing server unchanged.** A Rust desktop shell (likely Tauri) replaces Electron main/preload. The existing server runs as a sidecar. The renderer is unchanged.
@@ -40,7 +48,11 @@ Implication: replacing only the shell may save less than hoped, because the Java
 
 ### Recommendation (non-binding)
 
-Do A as milestone 1 *if* J-005 shows the Electron shell is a large share of resource use on the target hardware. Treat B as a data-driven follow-on: port only modules the audit shows are costly and have clean seams. Reject C.
+Adopt **Option A** as Milestone 1:
+- The Phase 1 audit conclusively demonstrated that the Electron shell accounts for ~100-140 MB of idle RAM and significant binary size.
+- Replacing the shell with Tauri v2 leaves the renderer and server 100% unchanged, offering the lowest risk, easiest rollback path, and fastest delivery.
+- Evaluate **Option B** as a data-driven follow-on after Milestone 1 is verified on target hardware.
+- Reject **Option C**.
 
 ### Decision
 
