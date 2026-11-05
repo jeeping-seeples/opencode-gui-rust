@@ -6,6 +6,11 @@
 ## Next actions
 
 1. Start remaining Phase 1 inventories: J-004 (Native and platform features inventory) and J-005 (Baseline performance measurements).
+**Last updated:** 2026-11-05 (J-001 completed, J-002 completed)
+
+## Next actions
+
+1. Start parallel Phase 1 tasks: J-003, J-004, or J-005.
 
 ## Blockers
 
@@ -19,6 +24,7 @@
 | J-001 | Repo, build and version audit | Completed | #2 | `docs/progress/J-001.md` |
 | J-002 | IPC and preload inventory | Completed | #3 | `docs/progress/J-002.md` |
 | J-003 | Server contract inventory | Completed | #4 | `docs/progress/J-003.md` |
+| J-003 | Server contract inventory | Ready | | |
 | J-004 | Native and platform features inventory | Ready | | |
 | J-005 | Baseline performance measurements | Ready | | |
 | J-006 | Phase 1 synthesis and ADR-0001 proposal | Blocked by J-001 to J-005 | | |
