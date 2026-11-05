@@ -67,7 +67,21 @@ crates/              Rust workspace; created in Phase 3, not before
 
 ## Commands
 
-> To be filled in by task J-001 after the upstream build has been tried. Until then, do not assume any command works. J-001 is the only task allowed to edit this section.
+Commands verified or attempted in the Jules VM (Ubuntu 24.04 x86_64, Bun 1.2.14, Node 22.22.1) during task J-001.
+
+### Verified Commands
+
+- `cd upstream && bun install --frozen-lockfile` (*verified*): Installs monorepo workspace dependencies and runs postinstall native build scripts.
+- `cd upstream/packages/desktop && bun run typecheck:tsc` (*verified*): Runs TypeScript compiler (`tsc -b`) across desktop source and tests with zero errors.
+- `cd upstream/packages/desktop && bun run pack` (*verified*): Runs `electron-builder` to assemble Linux distribution packages (`.AppImage`, `.deb`, `.rpm`) in `dist/desktop/` (requires `rpm` package installed on Linux host).
+- `xvfb-run -a upstream/packages/desktop/dist/linux-unpacked/ai.opencode.desktop.dev --no-sandbox` (*verified*): Launches the unpackaged Electron desktop app headlessly and confirms initialization of the main process and background CLI daemon.
+
+### Unverified / Failing Commands in VM
+
+- `cd upstream/packages/desktop && bun run build` (*unverified / failed*): `electron-vite build` succeeds, but post-bundle `verifyBundles()` fails under Bun 1.2 because `node:vm.SourceTextModule` is not implemented in Bun 1.2. Works if run under Node.
+- `cd upstream/packages/desktop && bun run typecheck` (*unverified / failed*): Upstream script calls `bun check --no-script -b`, which is an experimental flag in Bun >= 1.4; fails on Bun 1.2. Use `bun run typecheck:tsc` instead.
+- `cd upstream/packages/desktop && bun test` (*unverified / failed*): 169 passed, 4 skipped, 24 failed due to missing `node:sqlite` support in Bun 1.2 and timer mocks.
+- `cd upstream/packages/desktop && bun dev` (*unverified*): Interactive dev server; not run during automated baseline builds.
 
 ## Rust conventions (apply from Phase 3 onward)
 
