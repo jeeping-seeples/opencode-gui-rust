@@ -14,7 +14,7 @@ on:
       ref:
         description: "Tag, branch or commit SHA to import (prefer a release tag over a moving branch)"
         required: true
-        default: "dev"
+        default: "v2.2.5"
 
 permissions:
   contents: write
