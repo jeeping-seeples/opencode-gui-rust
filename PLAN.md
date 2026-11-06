@@ -36,33 +36,33 @@ Goal: Understand the original application before changing anything.
 
 Repository investigation
 
-* [ ]	Identify the official upstream repository and exact version/commit.
-* [ ]	Identify the GUI framework and frontend architecture.
-* [ ]	Identify the existing backend language and framework.
-* [ ]	Map the frontend/backend communication layer.
-* [ ]	Identify all backend entry points.
-* [ ]	Map existing modules and dependencies.
-* [ ]	Identify configuration and environment requirements.
-* [ ]	Document build, development and release procedures.
+* [x]	Identify the official upstream repository and exact version/commit (docs/audit/01-repo-and-build.md).
+* [x]	Identify the GUI framework and frontend architecture (docs/audit/01-repo-and-build.md).
+* [x]	Identify the existing backend language and framework (docs/audit/01-repo-and-build.md).
+* [x]	Map the frontend/backend communication layer (docs/audit/02-ipc-inventory.md).
+* [x]	Identify all backend entry points (docs/audit/02-ipc-inventory.md, docs/audit/03-server-contract.md).
+* [x]	Map existing modules and dependencies (docs/audit/01-repo-and-build.md).
+* [x]	Identify configuration and environment requirements (docs/audit/03-server-contract.md).
+* [x]	Document build, development and release procedures (docs/audit/01-repo-and-build.md).
 
 Functional investigation
 
-* [ ]	Catalogue all existing GUI features.
-* [ ]	Identify every backend-dependent feature.
-* [ ]	Document API endpoints and request/response formats.
-* [ ]	Document streaming and event behaviour.
-* [ ]	Document process and filesystem operations.
-* [ ]	Document authentication and provider integrations.
-* [ ]	Identify platform-specific functionality.
+* [x]	Catalogue all existing GUI features (docs/audit/04-native-features.md).
+* [x]	Identify every backend-dependent feature (docs/audit/02-ipc-inventory.md, docs/audit/04-native-features.md).
+* [x]	Document API endpoints and request/response formats (docs/audit/03-server-contract.md, docs/audit/openapi/openapi.json).
+* [x]	Document streaming and event behaviour (docs/audit/03-server-contract.md).
+* [x]	Document process and filesystem operations (docs/audit/03-server-contract.md).
+* [x]	Document authentication and provider integrations (docs/audit/03-server-contract.md).
+* [x]	Identify platform-specific functionality (docs/audit/04-native-features.md).
 
 Baseline
 
-* [ ]	Establish existing build/test baseline.
-* [ ]	Record startup time.
-* [ ]	Record idle memory consumption.
-* [ ]	Record representative CPU usage.
-* [ ]	Identify existing bugs and limitations.
-* [ ]	Capture GUI screenshots at relevant screen sizes.
+* [x]	Establish existing build/test baseline (docs/audit/01-repo-and-build.md, docs/audit/05-baseline.md).
+* [x]	Record startup time (docs/audit/05-baseline.md).
+* [x]	Record idle memory consumption (docs/audit/05-baseline.md).
+* [x]	Record representative CPU usage (docs/audit/05-baseline.md).
+* [x]	Identify existing bugs and limitations (docs/audit/01-repo-and-build.md, docs/audit/04-native-features.md).
+* [ ]	Capture GUI screenshots at relevant screen sizes (Unverified in headless VM due to virtual display limitation).
 
 Deliverable
 

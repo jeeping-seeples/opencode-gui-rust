@@ -1,20 +1,17 @@
 # Progress
 
-**Current phase:** Phase 1 — Study
-**Last updated:** 2026-11-05 (J-001 completed, J-002 completed, J-003 completed)
+**Current phase:** Phase 1 — Study (Complete — awaiting ADR-0001 approval)
+**Last updated:** 2026-11-05 (All Phase 1 tasks J-001 through J-006 completed)
 
 ## Next actions
 
-1. Start remaining Phase 1 inventories: J-004 (Native and platform features inventory) and J-005 (Baseline performance measurements).
-**Last updated:** 2026-11-05 (J-001 completed, J-002 completed)
-
-## Next actions
-
-1. Start parallel Phase 1 tasks: J-003, J-004, or J-005.
+1. Review `docs/ARCHITECTURE_AUDIT.md` and `docs/DECISIONS.md`.
+2. Decide and mark **ADR-0001 Accepted** in `docs/DECISIONS.md`.
+3. Start Phase 2 (Tasks J-100 and J-101 in `docs/TASKS.md`).
 
 ## Blockers
 
-- ADR-0001 (what "Rust backend" means) is undecided. It blocks all Rust code, by design.
+- ADR-0001 (what "Rust backend" means) is proposed with full Phase 1 evidence and awaits owner decision before Phase 2/3 production code.
 
 ## Task status
 
